@@ -3,6 +3,7 @@ version: "3"
 services:
   mariadb:
     image: mariadb:latest
+    # Where your data will be persisted
     volumes:
       - ${PWD}/mariadb:/var/lib/mysql
     restart: always
@@ -11,14 +12,17 @@ services:
       MYSQL_DATABASE: wordpress
       MYSQL_USER: wordpress
       MYSQL_PASSWORD: wordpress
+    # <Port exposed> : <MariaDB port running inside container>
     ports:
       - "3306:3306"
+    # Opens port 3306 on the container
     expose: ["3306"]
 
   wordpress:
     depends_on:
       - mariadb
-    image: wordpress:5.1.1-php7.3-apache
+    image: wordpress:5.3.2-php7.3-apache
+    # <Port exposed> : <Apache port running inside container>
     ports:
       - "8000:80"
     restart: always
